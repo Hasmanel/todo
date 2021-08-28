@@ -1,17 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import { nanoid } from "nanoid";
-
+import { useHistory } from "react-router-dom";
 export const Global = ({ list, execut }) => {
   const [TacheName, setTacheName] = useState();
+  const history = useHistory();
+  function handelclick(identifient) {
+    history.push(`/detail/${identifient}`);
+  }
   return (
     <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-
-          let id = nanoid();
-          let newTache = { id, TacheName };
+          let identifient = nanoid();
+          let newTache = { identifient, TacheName };
           setTacheName("");
           return execut([...list, newTache]);
         }}
@@ -23,7 +26,9 @@ export const Global = ({ list, execut }) => {
 
         <ul>
           {list.map((elt) => (
-            <li>{elt.TacheName}</li>
+            <li onClick={() => handelclick(elt.identifient)}>
+              {elt.TacheName}
+            </li>
           ))}
         </ul>
       </form>
